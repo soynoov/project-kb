@@ -34,7 +34,7 @@ try {
         }
 
         if (isset($error)) {
-            echo "Los campos son incorrectos";
+            echo "El correo y/o la contraseña son incorrectos.";
         }
     } else {
         $clave = "";
