@@ -42,8 +42,8 @@ try {
 } catch (PDOException $e) {
     echo "Error con la base de datos: " . $e->getMessage();
 }
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -57,15 +57,14 @@ try {
 
 <body>
     <form action="/" method="post">
+        <h3>Login</h3>
         <input type="text" name="correo" placeholder="Correo">
         <input type="password" name="clave" placeholder="Clave">
         <input type="submit" value="Entrar">
 
-
         <p>¿No tienes cuenta? </p>
         <a href="">Crea una Cuenta.</a>
         <a href="">Entrar como Invitado.</a>
-
     </form>
 </body>
 
