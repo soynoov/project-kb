@@ -12,7 +12,7 @@
     <form action="" method="post">
         <input type="text" name="" placeholder="Correo">
         <input type="password" name="" placeholder="Clave">
-        <p>¿No tienes cuenta?<a href="">Crea una Cuenta</a>.</p>
+        <p>¿No tienes cuenta? <a href="">Crea una Cuenta</a>.</p>
         <p>Entrar como Invitado.</p>
     </form>
 </body>

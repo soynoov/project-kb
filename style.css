@@ -24,6 +24,7 @@ form {
     background: linear-gradient(#fff, var(--white));
     padding: 1rem;
     border-radius: 5px;
+    text-align: center;
 }
 
 input {
