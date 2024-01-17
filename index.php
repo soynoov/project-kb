@@ -6,6 +6,7 @@ $root = "root";
 $key = "";
 
 try {
+
     $db = new PDO($cadena_conexion, $root, $key);
 
     //hacemos un metodo post para que recibamos los valores del formulario y transformarlos a valores
@@ -36,11 +37,7 @@ try {
         if (isset($error)) {
             echo "El correo y/o la contraseña son incorrectos.";
         }
-    } else {
-        $clave = "";
-        $correo = "";
     }
-
 
 } catch (PDOException $e) {
     echo "Error con la base de datos: " . $e->getMessage();
