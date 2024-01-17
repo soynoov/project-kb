@@ -4,11 +4,10 @@ Descripción breve de tu proyecto.
 
 ## Tabla de Contenidos
 
-- [Instalación](#instalación)
-- [Uso](#uso)
-- [Características](#características)
-- [Contribución](#contribución)
-- [Licencia](#licencia)
+- [Proyecto KB](#proyecto-kb)
+  - [Tabla de Contenidos](#tabla-de-contenidos)
+  - [Instalación](#instalación)
+  - [Uso](#uso)
 
 ## Instalación
 

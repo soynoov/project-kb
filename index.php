@@ -10,8 +10,8 @@
 
 <body>
     <form action="" method="post">
-        <input type="text" name="" placeholder="Usuario">
-        <input type="password" name="" placeholder="Contraseña">
+        <input type="text" name="" placeholder="Correo">
+        <input type="password" name="" placeholder="Clave">
     </form>
 </body>
 

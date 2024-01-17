@@ -6,10 +6,11 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 body {
-    background-color: var(--dark);
+    background: linear-gradient(#333, var(--dark));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +21,7 @@ body {
 form {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(var(--white), #fff);
+    background: linear-gradient(#fff, var(--white));
     padding: 1rem;
     border-radius: 5px;
 }
