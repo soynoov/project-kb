@@ -1,0 +1,33 @@
+:root {
+    --dark: #212121;
+    --white: #ccc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(var(--white), #fff);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+input {
+    margin: 1rem;
+    padding: 0.2rem;
+    border-radius: 5px;
+    text-align: center;
+}
