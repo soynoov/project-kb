@@ -1,54 +1,50 @@
 <?php
-    //Conexion con la base de datos
-    $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
-    $root = "root";
-    $key = "";
 
-    try{
-        $db = new PDO($cadena_conexion, $root, $key);
+//Conexion con la base de datos
+$cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+$root = "root";
+$key = "";
 
-        //hacemos un metodo post para que recibamos los valores del formulario y transformarlos a valores
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+try {
+    $db = new PDO($cadena_conexion, $root, $key);
 
-            
-                $correo = $_POST["correo"];
-                $clave = $_POST["clave"];
+    //hacemos un metodo post para que recibamos los valores del formulario y transformarlos a valores
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-                $data = $db->query("SELECT * FROM usuario WHERE correo = '$correo' AND clave = '$clave'");
-                $fetch = $data->fetch();
+        $correo = $_POST["correo"];
+        $clave = $_POST["clave"];
 
-                if (empty($correo) && empty($clave)) {
-                    echo "Es necesario rellenar los campos";
-                }
+        $data = $db->query("SELECT * FROM usuario WHERE correo = '$correo' AND clave = '$clave'");
+        $fetch = $data->fetch();
 
-            //buscamos en la base de datos los valores que queremos atraves de los valores obtenidos por el formulario
-            
+        if (empty($correo) && empty($clave)) {
+            echo "Es necesario rellenar los campos";
+        }
 
-            if ($data->rowCount() == 0) {
-                $error = true;
+        //Buscamos en la base de datos los valores que queremos atraves de los valores obtenidos por el formulario
+        if ($data->rowCount() == 0) {
+            $error = true;
+        } else {
+            if ($_POST["correo"] == $fetch["correo"] and $_POST["clave"] == $fetch["clave"]) {
+                echo "Bienvenido!";
             } else {
-                if ($_POST["correo"] == $fetch["correo"] and $_POST["clave"] == $fetch["clave"]) {
-                    echo "Bienvenido!";
-                } else {
-                    $user = $_POST["user"];
-                    $error = true;
-                }
-            }
-
-            if (isset($error)) {
-                echo "Error";
+                $user = $_POST["user"];
+                $error = true;
             }
         }
-        else{
-            $clave = "";
-            $correo = "";
+
+        if (isset($error)) {
+            echo "Los campos son incorrectos";
         }
+    } else {
+        $clave = "";
+        $correo = "";
+    }
 
 
-    }
-    catch(PDOException $e){
-        echo "Error con la base de datos: " . $e->getMessage();
-    }
+} catch (PDOException $e) {
+    echo "Error con la base de datos: " . $e->getMessage();
+}
 ?>
 
 
@@ -67,12 +63,12 @@
         <input type="text" name="correo" placeholder="Correo">
         <input type="password" name="clave" placeholder="Clave">
         <input type="submit" value="Entrar">
-        
+
 
         <p>¿No tienes cuenta? </p>
         <a href="">Crea una Cuenta.</a>
         <a href="">Entrar como Invitado.</a>
-        
+
     </form>
 </body>
 
