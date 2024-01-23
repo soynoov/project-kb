@@ -28,6 +28,7 @@ try {
         } else {
             if ($_POST["correo"] == $fetch["correo"] and $_POST["clave"] == $fetch["clave"]) {
                 echo "Bienvenido!";
+                // header("Location:");
             } else {
                 $user = $_POST["user"];
                 $error = true;
