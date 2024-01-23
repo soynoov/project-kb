@@ -2,7 +2,8 @@
 
 :root {
     --dark: #212121;
-    --white: #ccc;
+    --light: #fff;
+    --white: #ddd;
 }
 
 * {
@@ -12,10 +13,7 @@
 }
 
 body {
-    background: linear-gradient(#333, var(--dark));
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: var(--white);
     width: 100vw;
     height: 100vh;
 }
@@ -39,4 +37,37 @@ input {
 p,
 a {
     padding: .5rem;
+}
+
+
+/* Styles Menu */
+
+.menu header {
+    background-color: var(--light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.menu header nav ul {
+    display: flex;
+    list-style: none;
+}
+
+.menu header nav ul li a {
+    padding: 1rem;
+    margin: 1rem;
+    text-decoration: none;
+    color: var(--dark);
+}
+
+.menu #basket {
+    background-color: green;
+    color: var(--light);
+    border-radius: 1rem;
+}
+
+.menu #basket:hover {
+    background-color: darkgreen;
 }
