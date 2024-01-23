@@ -27,10 +27,7 @@ try {
             $error = true;
         } else {
             if ($_POST["correo"] == $fetch["correo"] and $_POST["clave"] == $fetch["clave"]) {
-                //Creamos el sesion para almacenar el id de usuario para poder utilizarlo en el menu
-                session_start();
-                $_SESSION["Usuario"] = $fetch["id_usuario"]; // Vamo a ir probando
-                header("Location:pages/menu.php?user=" . $fetch["id_usuario"]);
+              
             } else {
                 $user = $_POST["user"];
                 $error = true;
