@@ -5,6 +5,7 @@
     --light: #fff;
     --white: #eee;
     --warning: #E31937;
+    --main-color: #80C457;
 }
 
 * {
@@ -101,12 +102,12 @@ a {
 
 .menu #basket {
     /* #basket hace referencía al carrito de la compra */
-    background-color: green;
+    background-color: var(--main-color);
     color: var(--light);
 }
 
 .menu #basket:hover {
-    background-color: darkgreen;
+    background-color: green;
 }
 
 .menu #notify {
@@ -131,7 +132,7 @@ a {
     margin: 1rem;
 }
 
-.menu main div {
+.menu main section>div {
     background-color: var(--light);
     width: 20vw;
     border-radius: 1rem;
@@ -139,7 +140,7 @@ a {
     border: solid .5rem var(--light);
 }
 
-.menu main div:hover {
+.menu main section>div:hover {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
@@ -148,10 +149,19 @@ a {
 }
 
 .menu main div p {
-    background-color: lightgreen;
-    color: var(--white);
-    margin: .5rem 7vw;
+    color: var(--main-color);
     border-radius: 1rem;
+    padding: .5rem 1rem;
+    margin: 1rem 0;
+}
+
+.menu main div p:last-of-type {
+    background-color: var(--main-color);
+    color: var(--white);
+}
+
+.menu main div p:last-of-type:hover {
+    background-color: green;
 }
 
 .menu main section {
@@ -159,6 +169,11 @@ a {
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.menu main section div div {
+    display: flex;
+    justify-content: space-around;
 }
 
 .menu::-webkit-scrollbar {
