@@ -147,8 +147,11 @@ a {
     height: 15vw;
 }
 
-.menu main p {
-    color: lightgreen;
+.menu main div p {
+    background-color: lightgreen;
+    color: var(--white);
+    margin: .5rem 7rem;
+    border-radius: 1rem;
 }
 
 .menu main section {
