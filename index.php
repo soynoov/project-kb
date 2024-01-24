@@ -57,25 +57,28 @@ try {
     <title>| Kebab</title>
 </head>
 
-<body>
+<body class="login">
+
     <?php
-        if(isset($_GET["check"])){
-            echo "<p>Te has registrado con éxito.</p>";
-        }
+    if (isset($_GET["check"])) {
+        echo "<p id='check'>Te has registrado con éxito.</p>";
+    }
     ?>
+
     <form action="" method="post">
+
         <h3>Login</h3>
         <input type="text" name="correo" placeholder="Correo" value="">
         <!-- Estoy intentando que se mantenga el correo aunque la contraseña esté mal, pero tengo que seguir trabajando en ello -->
         <input type="password" name="clave" placeholder="Clave">
         <input type="submit" value="Entrar">
-        <p>¿No tienes cuenta? </p>
-        <a href="./pages/register.php">Crea una Cuenta.</a>
-        <a href="">Entrar como Invitado.</a>
 
-        
-        
+        <p>¿No tienes cuenta?</p>
+        <a href="./pages/register.php">Crear una Cuenta</a>
+        <a href="/pages/menu.php">Entrar como Invitado</a>
+
     </form>
+
 </body>
 
 </html>
