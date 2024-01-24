@@ -85,7 +85,7 @@ a {
     margin: 1rem;
     text-decoration: none;
     color: var(--dark);
-    border-radius: 1rem;
+    border-radius: 10px;
     display: flex;
     align-items: center;
 }
@@ -113,7 +113,7 @@ a {
 .menu #notify {
     /* #notify hace referencia al número de notificaciones o items del carrito (Cambiar valor mediante una variable de php) */
     background-color: var(--warning);
-    border-radius: 1rem;
+    border-radius: 10px;
     padding: .25rem .5rem;
     margin-left: 1rem;
     border: solid 1px var(--warning);
@@ -135,7 +135,7 @@ a {
 .menu main section>div {
     background-color: var(--light);
     width: 20vw;
-    border-radius: 1rem;
+    border-radius: 10px;
     cursor: pointer;
     border: solid .5rem var(--light);
 }
@@ -150,7 +150,7 @@ a {
 
 .menu main div p {
     color: var(--main-color);
-    border-radius: 1rem;
+    border-radius: 5px;
     padding: .5rem 1rem;
     margin: 1rem;
 }
