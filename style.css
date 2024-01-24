@@ -150,7 +150,7 @@ a {
 .menu main div p {
     background-color: lightgreen;
     color: var(--white);
-    margin: .5rem 7rem;
+    margin: .5rem 7vw;
     border-radius: 1rem;
 }
 
