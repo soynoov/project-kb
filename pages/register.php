@@ -45,7 +45,7 @@ try{
 
 <body>
     <form action="" method="post">
-        <h3>New Account</h3>
+        <h3>Crear Cuenta</h3>
         <input type="text" name="nombre" placeholder="Nombre" value="">
         <input type="text" name="correo" placeholder="Correo" value="">
         <input type="text" name="direccion" placeholder="Dirección" value="">
@@ -53,7 +53,7 @@ try{
         <input type="submit" value="Entrar">
         <p>¿Ya tienes cuenta?</p>
         <a href="../index.php">Iniciar sesion.</a>
-        <a href="">Entrar como Invitado.</a>
+        <a href="./menu.html">Entrar como Invitado.</a>
     </form>
 </body>
 
