@@ -152,7 +152,7 @@ a {
     color: var(--main-color);
     border-radius: 1rem;
     padding: .5rem 1rem;
-    margin: 1rem 0;
+    margin: 1rem;
 }
 
 .menu main div p:last-of-type {
@@ -173,7 +173,7 @@ a {
 
 .menu main section div div {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .menu::-webkit-scrollbar {
