@@ -29,7 +29,7 @@ try {
             if ($_POST["correo"] == $fetch["correo"] and $_POST["clave"] == $fetch["clave"]) {
                 session_start();
                 $_SESSION["usuario"] = $fetch["id_usuario"];
-                header("Location:pages/menu.php?user=" . $fetch["id_usuario"]);
+                header("Location:pages/menu.html?user=" . $fetch["id_usuario"]);
             } else {
                 $user = $_POST["user"];
                 $error = true;
@@ -58,14 +58,14 @@ try {
 </head>
 
 <body>
-    <form action="/" method="post">
+    <form action="" method="post">
         <h3>Login</h3>
         <input type="text" name="correo" placeholder="Correo" value="">
         <!-- Estoy intentando que se mantenga el correo aunque la contraseña esté mal, pero tengo que seguir trabajando en ello -->
         <input type="password" name="clave" placeholder="Clave">
         <input type="submit" value="Entrar">
 
-        <p>¿No tienes cuenta? </p>
+x        <p>¿No tienes cuenta? </p>
         <a href="">Crea una Cuenta.</a>
         <a href="">Entrar como Invitado.</a>
     </form>
