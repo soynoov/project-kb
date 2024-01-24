@@ -67,7 +67,7 @@ try {
 
     <form action="" method="post">
 
-        <h3>Login</h3>
+        <h3>Iniciar Sesión</h3>
         <input type="text" name="correo" placeholder="Correo" value="">
         <!-- Estoy intentando que se mantenga el correo aunque la contraseña esté mal, pero tengo que seguir trabajando en ello -->
         <input type="password" name="clave" placeholder="Clave">
