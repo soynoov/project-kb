@@ -3,8 +3,9 @@
 :root {
     --dark: #212121;
     --light: #fff;
-    --white: #ddd;
+    --white: #eee;
     --warning: #E31937;
+    --main-color: #80C457;
 }
 
 * {
@@ -44,13 +45,34 @@ a {
 /* Styles Menu */
 /* Menu Header */
 
+.menu {
+    overflow-x: hidden;
+}
+
 .menu header {
     background-color: var(--light);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    width: 100vw;
+}
+
+.menu header nav {
+    margin-right: 1rem;
+}
+
+.menu header div {
+    display: flex;
+    align-items: center;
+}
+
+.menu header svg {
+    margin-right: 1rem;
+}
+
+.menu header div svg {
+    margin-left: 2rem;
 }
 
 .menu header nav ul {
@@ -63,7 +85,9 @@ a {
     margin: 1rem;
     text-decoration: none;
     color: var(--dark);
-    border-radius: 1rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .menu header nav ul li a:hover {
@@ -78,21 +102,81 @@ a {
 
 .menu #basket {
     /* #basket hace referencía al carrito de la compra */
-    background-color: green;
+    background-color: var(--main-color);
     color: var(--light);
 }
 
 .menu #basket:hover {
-    background-color: darkgreen;
+    background-color: green;
 }
 
 .menu #notify {
     /* #notify hace referencia al número de notificaciones o items del carrito (Cambiar valor mediante una variable de php) */
     background-color: var(--warning);
-    border-radius: 1rem;
+    border-radius: 10px;
     padding: .25rem .5rem;
-    margin-left: .5rem;
+    margin-left: 1rem;
     border: solid 1px var(--warning);
 }
 
 /* Menu Main */
+
+.menu main {
+    padding: 1rem;
+    margin: 1rem;
+    text-align: center;
+}
+
+.menu main h1,
+.menu main h2 {
+    margin: 1rem;
+}
+
+.menu main section>div {
+    background-color: var(--light);
+    width: 20vw;
+    border-radius: 10px;
+    cursor: pointer;
+    border: solid .5rem var(--light);
+}
+
+.menu main section>div:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.menu main div img {
+    height: 15vw;
+}
+
+.menu main div p {
+    color: var(--main-color);
+    border-radius: 5px;
+    padding: .5rem 1rem;
+    margin: 1rem;
+}
+
+.menu main div p:last-of-type {
+    background-color: var(--main-color);
+    color: var(--white);
+}
+
+.menu main div p:last-of-type:hover {
+    background-color: green;
+}
+
+.menu main section {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.menu main section div div {
+    display: flex;
+    justify-content: center;
+}
+
+.menu::-webkit-scrollbar {
+    visibility: hidden;
+    width: 1px;
+}
