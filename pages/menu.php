@@ -1,5 +1,32 @@
 <?php
 
+session_start();
+
+function mostrar(){
+    if($_SESSION["categoria"] == 1){
+        $categoria = " - pollo";
+    }else if($_SESSION["categoria"] == 2){
+        $categoria = " - ternera";
+    }else if($_SESSION["categoria"] == 3){
+        $categoria = " - mixto";
+    }else if($_SESSION["categoria"] == 4){
+        $categoria = " - vegetariano";
+    }else{
+        $categoria = null;
+    }
+    
+    echo '<div>
+    <img src="https://www.kebabalguazas.es/wp-content/uploads/2021/06/menus_portada.png" alt="">
+    <h3>' . $_SESSION["nombre"] . $categoria . '</h3>
+    <div>
+            <form method="POST">
+                <p> ' . $_SESSION["precio"] . ' €</p>
+                <input type="submit" name="' . $_SESSION["id"] . '" value="Add Cart">
+            </form>
+        </div>
+    </div>';
+}
+
 function botonFiltrar()
 {
     $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
@@ -10,12 +37,26 @@ function botonFiltrar()
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     if (isset($_POST["filtrar"])) {
         $categoria = $_POST["categoria"];
-        echo "Categoria: " . $categoria;
         $data = $db->query("SELECT * FROM producto WHERE categoria = $categoria");
         $fetch = $data->fetch();
         $numFilas = $data->rowCount();
-        echo "Filas: " . $numFilas;
+        $_SESSION["id"] = $fetch["id_producto"];
+        $_SESSION["precio"] = $fetch["precio"];
+        $_SESSION["nombre"] = $fetch["nombre"];
         return $numFilas;
+    }else{
+        $data = $db->query("SELECT * FROM producto");
+
+        
+        foreach($data as $produc){
+            $_SESSION["id"] = $produc["id_producto"];
+            $_SESSION["precio"] = $produc["precio"];
+            $_SESSION["nombre"] = $produc["nombre"];
+            $_SESSION["categoria"] = $produc["categoria"];
+            mostrar();
+        }
+
+
     }
 }
 
@@ -112,7 +153,7 @@ function botonFiltrar()
         <hr>
         <!-- Secciones de la Carta (El Menu) -->
         <h2>Categorias</h2>
-        <form method="post">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <input type="radio" name="categoria" value="0">
             <label for="">Menus</label>
             <input type="radio" name="categoria" value="3">
@@ -124,52 +165,14 @@ function botonFiltrar()
             <input type="submit" value="Filtrar" name="filtrar">
         </form>
         <section><?php 
+
         $filasnumero = botonFiltrar();
+
         for($i = 0; $filasnumero > $i; $i++){
-            
+            mostrar();
         }   
 
         ?>
-            <div>
-                <img src="https://www.kebabalguazas.es/wp-content/uploads/2021/06/menus_portada.png" alt="">
-                <h3>Menu Kebab Gourmet</h3>
-                <div>
-                    <p>7.55 €</p>
-                    <p>Add Cart</p>
-                </div>
-            </div>
-            <div>
-                <img src="https://pngimg.com/d/kebab_PNG38.png" alt="">
-                <h3>Menu Kebab Simple</h3>
-                <div>
-                    <p>7.00 €</p>
-                    <p>Add Cart</p>
-                </div>
-            </div>
-            <div>
-                <img src="https://www.kebabambar.com/wp-content/uploads/2017/09/Menu-Kebab-Falafel.png" alt="">
-                <h3>Menu Vegetal</h3>
-                <div>
-                    <p>7.95 €</p>
-                    <p>Add Cart</p>
-                </div>
-            </div>
-            <div>
-                <img src="https://www.royalkebab-pizzeria.es/wp-content/uploads/2021/09/menu_7.png" alt="">
-                <h3>Menu Burger</h3>
-                <div>
-                    <p>5.00 €</p>
-                    <p>Add Cart</p>
-                </div>
-            </div>
-            <div>
-                <img src="https://labrasakebab.com/uploads/menu/Kebab-Menu-Pita.png" alt="">
-                <h3>Menu Casa</h3>
-                <div>
-                    <p>8.00 €</p>
-                    <p>Add Cart</p>
-                </div>
-            </div>
         </section>
 
     </main>
