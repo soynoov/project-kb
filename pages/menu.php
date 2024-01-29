@@ -36,14 +36,17 @@ function botonFiltrar()
     $db = new PDO($cadena_conexion, $root, $key);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     if (isset($_POST["filtrar"])) {
+
         $categoria = $_POST["categoria"];
         $data = $db->query("SELECT * FROM producto WHERE categoria = $categoria");
-        $fetch = $data->fetch();
-        $numFilas = $data->rowCount();
-        $_SESSION["id"] = $fetch["id_producto"];
-        $_SESSION["precio"] = $fetch["precio"];
-        $_SESSION["nombre"] = $fetch["nombre"];
-        return $numFilas;
+
+        foreach($data as $produc){
+            $_SESSION["id"] = $produc["id_producto"];
+            $_SESSION["precio"] = $produc["precio"];
+            $_SESSION["nombre"] = $produc["nombre"];
+            $_SESSION["categoria"] = $produc["categoria"];
+            mostrar();
+        }
     }else{
         $data = $db->query("SELECT * FROM producto");
 
@@ -153,26 +156,19 @@ function botonFiltrar()
         <hr>
         <!-- Secciones de la Carta (El Menu) -->
         <h2>Categorias</h2>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <input type="radio" name="categoria" value="0">
-            <label for="">Menus</label>
-            <input type="radio" name="categoria" value="3">
-            <label for="">Mixto</label>
+        <form method="post"1>
+            <input type="radio" name="categoria" value="2">
+            <label for="">Ternera</label>
+            <input type="radio" name="categoria" value="1">
+            <label for="">Pollo</label>
             <input type="radio" name="categoria" value="5">
             <label for="">Complementos</label>
             <input type="radio" name="categoria" value="6">
             <label for="">Bebidas</label>
             <input type="submit" value="Filtrar" name="filtrar">
         </form>
-        <section><?php 
-
-        $filasnumero = botonFiltrar();
-
-        for($i = 0; $filasnumero > $i; $i++){
-            mostrar();
-        }   
-
-        ?>
+        <section>
+        <?php botonFiltrar(); ?>
         </section>
 
     </main>
