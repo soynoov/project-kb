@@ -180,3 +180,7 @@ a {
     visibility: hidden;
     width: 1px;
 }
+
+.menu main form {
+    display: inline;
+}
