@@ -184,3 +184,20 @@ a {
 .menu main form {
     display: inline;
 }
+
+/* Filter */
+#filter label {
+    padding: .5rem;
+    border: solid 2px var(--dark);
+    color: var(--dark);
+    background-color: var(--white);
+}
+
+#filter label:checked {
+    border-color: var(--main-color);
+    color: var(--main-color);
+}
+
+#filter input[type="radio"] {
+    display: none;
+}

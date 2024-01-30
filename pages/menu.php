@@ -2,19 +2,20 @@
 
 session_start();
 
-function mostrar(){
-    if($_SESSION["categoria"] == 1){
+function mostrar()
+{
+    if ($_SESSION["categoria"] == 1) {
         $categoria = " - pollo";
-    }else if($_SESSION["categoria"] == 2){
+    } else if ($_SESSION["categoria"] == 2) {
         $categoria = " - ternera";
-    }else if($_SESSION["categoria"] == 3){
+    } else if ($_SESSION["categoria"] == 3) {
         $categoria = " - mixto";
-    }else if($_SESSION["categoria"] == 4){
+    } else if ($_SESSION["categoria"] == 4) {
         $categoria = " - vegetariano";
-    }else{
+    } else {
         $categoria = null;
     }
-    
+
     echo '<div>
     <img src="https://www.kebabalguazas.es/wp-content/uploads/2021/06/menus_portada.png" alt="">
     <h3>' . $_SESSION["nombre"] . $categoria . '</h3>
@@ -40,18 +41,18 @@ function botonFiltrar()
         $categoria = $_POST["categoria"];
         $data = $db->query("SELECT * FROM producto WHERE categoria = $categoria");
 
-        foreach($data as $produc){
+        foreach ($data as $produc) {
             $_SESSION["id"] = $produc["id_producto"];
             $_SESSION["precio"] = $produc["precio"];
             $_SESSION["nombre"] = $produc["nombre"];
             $_SESSION["categoria"] = $produc["categoria"];
             mostrar();
         }
-    }else{
+    } else {
         $data = $db->query("SELECT * FROM producto");
 
-        
-        foreach($data as $produc){
+
+        foreach ($data as $produc) {
             $_SESSION["id"] = $produc["id_producto"];
             $_SESSION["precio"] = $produc["precio"];
             $_SESSION["nombre"] = $produc["nombre"];
@@ -81,12 +82,16 @@ function botonFiltrar()
     <header>
         <!-- Logo de la Empresa con su Titulo -->
         <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-meat" width="34" height="34" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-meat" width="34" height="34"
+                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M13.62 8.382l1.966 -1.967a2 2 0 1 1 3.414 -1.415a2 2 0 1 1 -1.413 3.414l-1.82 1.821" />
-                <path d="M5.904 18.596c2.733 2.734 5.9 4 7.07 2.829c1.172 -1.172 -.094 -4.338 -2.828 -7.071c-2.733 -2.734 -5.9 -4 -7.07 -2.829c-1.172 1.172 .094 4.338 2.828 7.071z" />
+                <path
+                    d="M5.904 18.596c2.733 2.734 5.9 4 7.07 2.829c1.172 -1.172 -.094 -4.338 -2.828 -7.071c-2.733 -2.734 -5.9 -4 -7.07 -2.829c-1.172 1.172 .094 4.338 2.828 7.071z" />
                 <path d="M7.5 16l1 1" />
-                <path d="M12.975 21.425c3.905 -3.906 4.855 -9.288 2.121 -12.021c-2.733 -2.734 -8.115 -1.784 -12.02 2.121" />
+                <path
+                    d="M12.975 21.425c3.905 -3.906 4.855 -9.288 2.121 -12.021c-2.733 -2.734 -8.115 -1.784 -12.02 2.121" />
             </svg>
             <h1>Tienda Kebab</h1>
         </div>
@@ -156,19 +161,27 @@ function botonFiltrar()
         <hr>
         <!-- Secciones de la Carta (El Menu) -->
         <h2>Categorias</h2>
-        <form method="post"1>
-            <input type="radio" name="categoria" value="2">
-            <label for="">Ternera</label>
-            <input type="radio" name="categoria" value="1">
-            <label for="">Pollo</label>
-            <input type="radio" name="categoria" value="5">
-            <label for="">Complementos</label>
-            <input type="radio" name="categoria" value="6">
-            <label for="">Bebidas</label>
+        <form method="post" id="filter">
+            <label>
+                <input type="radio" name="categoria" value="2">
+                Ternera
+            </label>
+            <label>
+                <input type="radio" name="categoria" value="1">
+                Pollo
+            </label>
+            <label>
+                <input type="radio" name="categoria" value="5">
+                Complementos
+            </label>
+            <label>
+                <input type="radio" name="categoria" value="6">
+                Bebidas
+            </label>
             <input type="submit" value="Filtrar" name="filtrar">
         </form>
         <section>
-        <?php botonFiltrar(); ?>
+            <?php botonFiltrar(); ?>
         </section>
 
     </main>
