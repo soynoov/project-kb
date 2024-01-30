@@ -193,7 +193,7 @@ a {
     background-color: var(--white);
 }
 
-#filter label:checked {
+#filter label:has(input[type="radio"]:checked) {
     border-color: var(--main-color);
     color: var(--main-color);
 }
