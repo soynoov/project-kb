@@ -49,7 +49,7 @@ a {
     overflow-x: hidden;
 }
 
-.menu header {
+header {
     background-color: var(--light);
     display: flex;
     justify-content: space-between;
@@ -58,29 +58,29 @@ a {
     width: 100vw;
 }
 
-.menu header nav {
+header nav {
     margin-right: 1rem;
 }
 
-.menu header div {
+header div {
     display: flex;
     align-items: center;
 }
 
-.menu header svg {
+header svg {
     margin-right: 1rem;
 }
 
-.menu header div svg {
+header div svg {
     margin-left: 2rem;
 }
 
-.menu header nav ul {
+header nav ul {
     display: flex;
     list-style: none;
 }
 
-.menu header nav ul li a {
+header nav ul li a {
     padding: 1rem;
     margin: 1rem;
     text-decoration: none;
@@ -90,27 +90,27 @@ a {
     align-items: center;
 }
 
-.menu header nav ul li a:hover {
+header nav ul li a:hover {
     background-color: var(--white);
 }
 
-.menu header nav #active {
+header nav #active {
     /* Hay que configurar mediante JavaScript la id #active */
     background-color: var(--white);
     font-weight: bold;
 }
 
-.menu #basket {
+#basket {
     /* #basket hace referencía al carrito de la compra */
     background-color: var(--main-color);
     color: var(--light);
 }
 
-.menu #basket:hover {
+#basket:hover {
     background-color: green;
 }
 
-.menu #notify {
+#notify {
     /* #notify hace referencia al número de notificaciones o items del carrito (Cambiar valor mediante una variable de php) */
     background-color: var(--warning);
     border-radius: 10px;
@@ -219,4 +219,41 @@ a {
     background-color: var(--dark);
     border: solid 2px var(--dark);
     color: var(--white);
+}
+
+/* Add Cart */
+#addcart input[type="submit"] {
+    background-color: var(--main-color);
+    color: var(--light);
+    border: none;
+    padding: 1rem;
+    border-radius: .5rem;
+    margin: 1rem 0rem;
+    cursor: pointer;
+}
+#addcart input[type="submit"]:hover {
+    background-color: green;
+}
+
+#card {
+    background-color: var(--light);
+    margin: 1rem .5rem;
+    padding: 1rem .5rem;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 10cm;
+    cursor: default;
+}
+
+#card p {
+    width: 2cm;
+    align-self: center;
+    background-color: transparent;
+    color: var(--main-color);
+}
+#card p:hover {
+    background-color: transparent;
 }
