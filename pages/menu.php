@@ -36,23 +36,53 @@ function mostrar()
 
 
 if (isset($_POST[$_SESSION["id"]])) {
-    // Ahora seria almacenar el id en un valor y si se puede llamamos la funcion addCarrito([$_SESSION["id"]]) con el valor ya predefinido como en js;
-    echo  $_SESSION["id"] ;
+    addCarrito($_SESSION["id"]);
 }
 
 }
 
-function addCarrito(){
-                  
+function addCarrito($id){
     $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
     $root = "root";
     $key = "";
 
-    $db = new PDO($cadena_conexion, $root, $key);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $id_usuario = $_SESSION["usuario"];
 
+    try {
+        $db = new PDO($cadena_conexion, $root, $key);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    echo "puto";
+        // Inicia la transacción
+        $db->beginTransaction();
+
+        //set cookie
+        if(!isset($_COOKIE["C_pedido"])){
+            setcookie("C_pedido" ,1, time() +  3600);
+
+                    // Insertar un nuevo pedido
+                    $crearPedido = $db->prepare("INSERT INTO pedido(entrega, usuario) VALUES (1, $id_usuario)");
+                    $crearPedido->execute();
+        }
+
+        // Obtener el ID del pedido recién creado
+        $idPedidoFetch = $db->lastInsertId();
+        // Insertar en la tabla carrito
+        $carritoAdd = $db->prepare("INSERT INTO carrito(pedido, producto) VALUES ($idPedidoFetch, $id)");
+        $carritoAdd->execute();
+
+        // Commit si todas las consultas se ejecutaron correctamente
+        $db->commit();
+
+        return true; // o algún otro indicador de éxito si es necesario
+
+    } catch (PDOException $e) {
+        // Rollback en caso de error
+        $db->rollBack();
+
+        // Manejo de errores, podrías imprimir el mensaje de error o loguearlo
+        echo "Error: " . $e->getMessage();
+        return false; // o algún otro indicador de error si es necesario
+    }
 
 }
 
