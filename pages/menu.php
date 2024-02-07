@@ -1,6 +1,39 @@
 <?php
-
+ob_start();
 session_start();
+function botonFiltrar()
+{
+    $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+    $root = "root";
+    $key = "";
+
+    $db = new PDO($cadena_conexion, $root, $key);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if (isset($_POST["filtrar"])) {
+        setcookie("C_pedido" ,"1", time() +  3600);
+        $categoria = $_POST["categoria"];
+        $data = $db->query("SELECT * FROM producto WHERE categoria = $categoria");
+
+        foreach ($data as $produc) {
+            $_SESSION["id"] = $produc["id_producto"];
+            $_SESSION["precio"] = $produc["precio"];
+            $_SESSION["nombre"] = $produc["nombre"];
+            $_SESSION["categoria"] = $produc["categoria"];
+            mostrar();
+        }
+    } else {
+        $data = $db->query("SELECT * FROM producto");
+        
+
+        foreach ($data as $produc) {
+            $_SESSION["id"] = $produc["id_producto"];
+            $_SESSION["precio"] = $produc["precio"];
+            $_SESSION["nombre"] = $produc["nombre"];
+            $_SESSION["categoria"] = $produc["categoria"];
+            mostrar();
+        }
+    }
+}
 
 
 function mostrar()
@@ -35,97 +68,85 @@ function mostrar()
     </div>
     ';
     
-    $carrito = array();
     if (isset($_POST[$_SESSION["id"]])) {
-        print_r ($_SESSION["id"]);
-
-
-        array_push($carrito, $_SESSION["id"]);
-
-        print_r( $carrito);
+        // Llama a la función para agregar el producto al carrito
+        addCarrito($_SESSION["id"]);
     }
-
     
 }
 
 
 
-// function addCarrito($id){
-//     $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
-//     $root = "root";
-//     $key = "";
-
-//     $id_usuario = $_SESSION["usuario"];
-
-//     try {
-//         $db = new PDO($cadena_conexion, $root, $key);
-//         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-//         // Inicia la transacción
-//         $db->beginTransaction();
-
-//         //set cookie
-//         if(!isset($_COOKIE["C_pedido"])){
-//                     // Insertar un nuevo pedido
-//                     $crearPedido = $db->prepare("INSERT INTO pedido(entrega, usuario) VALUES (1, $id_usuario)");
-//                     $crearPedido->execute();
-//         }
-
-//         // Obtener el ID del pedido recién creado
-//         $idPedidoFetch = $db->lastInsertId();
-//         // Insertar en la tabla carrito
-//         $carritoAdd = $db->prepare("INSERT INTO carrito(pedido, producto) VALUES ($idPedidoFetch, $id)");
-//         $carritoAdd->execute();
-
-//         // Commit si todas las consultas se ejecutaron correctamente
-//         $db->commit();
-
-//         return true; // o algún otro indicador de éxito si es necesario
-
-//     } catch (PDOException $e) {
-//         // Rollback en caso de error
-//         $db->rollBack();
-
-//         // Manejo de errores, podrías imprimir el mensaje de error o loguearlo
-//         echo "Error: " . $e->getMessage();
-//         return false; // o algún otro indicador de error si es necesario
-//     }
-
-// }
-
-function botonFiltrar()
-{
+function addCarrito($id){
     $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
     $root = "root";
     $key = "";
 
-    $db = new PDO($cadena_conexion, $root, $key);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    if (isset($_POST["filtrar"])) {
-        setcookie("C_pedido" ,"1", time() +  3600);
-        $categoria = $_POST["categoria"];
-        $data = $db->query("SELECT * FROM producto WHERE categoria = $categoria");
+    $id_usuario = $_SESSION["usuario"];
 
-        foreach ($data as $produc) {
-            $_SESSION["id"] = $produc["id_producto"];
-            $_SESSION["precio"] = $produc["precio"];
-            $_SESSION["nombre"] = $produc["nombre"];
-            $_SESSION["categoria"] = $produc["categoria"];
-            mostrar();
+    try {
+        $db = new PDO($cadena_conexion, $root, $key);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Inicia la transacción
+        $db->beginTransaction();
+
+
+        // // Comprobar si la cookie existe y tiene el valor 'false'
+        // if (!isset($_COOKIE['C_pedido']) || $_COOKIE['C_pedido'] === 'true') {
+        //     // Crear una cookie con valor booleano false
+        //     setcookie('C_pedido', 'false', time() + 3600); // La cookie expirará en una hora
+     
+        //     print_r($_COOKIE["C_pedido"]);
+        // } else {
+        //     // Cambiar el valor de la cookie a true y enviar la nueva cookie al navegador
+        //     setcookie('C_pedido', 'true', time() + 3600);
+        //     print_r($_COOKIE["C_pedido"]);
+        // }
+
+        //  // Obtener el ID del pedido recién creado
+        // $idPedidoFetch = $db->lastInsertId();
+        // // Insertar en la tabla carrito
+        // $db->query("INSERT INTO carrito(pedido, producto) VALUES ($idPedidoFetch, $id)");
+
+        // // Commit si todas las consultas se ejecutaron correctamente
+        // $db->commit();
+
+        //set cookie
+        if (!isset($_COOKIE["C_pedido"])) {
+                // Establecer la cookie cuando se envía el formulario de filtrar
+                setcookie("C_pedido", 1, time() + 3600);
+
+                // Insertar un nuevo pedido
+                $crearPedido = $db->prepare("INSERT INTO pedido(entrega, usuario) VALUES (1, $id_usuario)");
+                $crearPedido->execute();
+                // Obtener el ID del pedido recién creado
+                $idPedidoFetch = $db->lastInsertId();
+                print_r($idPedidoFetch);
+
+                $_SESSION["IDpf"] = $idPedidoFetch;
+
         }
-    } else {
-        $data = $db->query("SELECT * FROM producto");
 
+                // Insertar en la tabla carrito
+                $carritoAdd = $db->prepare("INSERT INTO carrito(pedido, producto) VALUES (". $_SESSION['IDpf'] .", $id)");
+                $carritoAdd->execute();
 
-        foreach ($data as $produc) {
-            $_SESSION["id"] = $produc["id_producto"];
-            $_SESSION["precio"] = $produc["precio"];
-            $_SESSION["nombre"] = $produc["nombre"];
-            $_SESSION["categoria"] = $produc["categoria"];
-            mostrar();
-        }
+                // Commit si todas las consultas se ejecutaron correctamente
+                $db->commit();
+
+    } catch (PDOException $e) {
+        // Rollback en caso de error
+        $db->rollBack();
+
+        // Manejo de errores, podrías imprimir el mensaje de error o loguearlo
+        echo "Error: " . $e->getMessage();
+        return false; // o algún otro indicador de error si es necesario
     }
+
 }
+
+
 
 
 ?>
