@@ -132,7 +132,7 @@ header nav #active {
     margin: 1rem;
 }
 
-.menu main section>div {
+.menu main section > div {
     background-color: var(--light);
     width: 20vw;
     border-radius: 10px;
@@ -145,7 +145,16 @@ header nav #active {
 }
 
 .menu main div img {
-    height: 15vw;
+    height: 5cm;
+    transition: transform 300ms ease;
+}
+
+.menu main section > div:hover {
+    cursor: pointer;
+}
+
+.menu main div:hover img {
+    transform: scale(1.1);
 }
 
 .menu main div p {

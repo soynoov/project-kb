@@ -2,7 +2,6 @@
 
 session_start();
 
-echo "<h1>Bienvenido " . $_SESSION["nombreusu"] . "! Aquí tienes tu carrito mamawebaso.</h1>";
 
 ?>
 
@@ -82,6 +81,13 @@ echo "<h1>Bienvenido " . $_SESSION["nombreusu"] . "! Aquí tienes tu carrito mam
     </header>
     <main>
         <!-- Carrito. Hay que crear un div que contenga todos los objetos del Carrito y detectar cuantos hay de cada uno de ellos. -->
+        <section>
+            <h3>Tu Carrito</h3>
+            <hr>
+            <ul>
+                <!-- Aqui se genera la información dinamicamente -->
+            </ul>
+        </section>
     </main>
 
 </body>

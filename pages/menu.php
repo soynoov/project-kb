@@ -1,6 +1,7 @@
 <?php
 ob_start();
 session_start();
+
 function botonFiltrar()
 {
     $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
@@ -22,6 +23,7 @@ function botonFiltrar()
             $_SESSION["img"] = $produc["img"];
             mostrar();
         }
+        
     } else {
         $data = $db->query("SELECT * FROM producto");
     
@@ -139,7 +141,7 @@ function addCarrito($id){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <title>| Menu</title>
 </head>
 
@@ -161,7 +163,8 @@ function addCarrito($id){
         <nav>
             <ul>
                 <!-- Opción de Navegación del Menu -->
-                <?php if (!isset($_GET["user"])) {
+                <?php 
+                if (!isset($_GET["user"])) {
                     echo '
                 <li>
                     <a href="../index.php" id="basket">
@@ -178,6 +181,15 @@ function addCarrito($id){
                 </li>
         ';
                 } else {
+                    $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+                    $root = "root";
+                    $key = "";
+
+                    $db = new PDO($cadena_conexion, $root, $key);
+
+                    $carrito = $db->query("SELECT * FROM  carrito");
+                    $_SESSION["filasCarrito"] = $carrito->rowCount();
+
                     echo '
                 <li>
                     <a href="" id="active">
@@ -214,7 +226,7 @@ function addCarrito($id){
                             <path d="M17 17h-11v-14h-2" />
                             <path d="M6 5l14 1l-1 7h-13" />
                         </svg>
-                            Carrito<span id="notify">3</span>
+                            Carrito<span id="notify">'. $_SESSION["filasCarrito"] .'</span>
                     </a>
                 </li>
     ';
@@ -232,7 +244,7 @@ function addCarrito($id){
         <hr>
         <!-- Secciones de la Carta (El Menu) -->
         <h2>Categorias</h2>
-        <form method="post" id="filter">
+        <form action=<?php htmlspecialchars($_SERVER['PHP_SELF']) ?> method="post" id="filter">
             <label>
                 <input type="radio" name="categoria" value="2">
                 Ternera
