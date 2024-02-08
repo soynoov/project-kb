@@ -122,7 +122,7 @@ function addCarrito($id){
                 $crearPedido->execute();
                 // Obtener el ID del pedido recién creado
                 $idPedidoFetch = $db->lastInsertId();
-                print_r($idPedidoFetch);
+                // print_r($idPedidoFetch);
 
                 $_SESSION["IDpf"] = $idPedidoFetch;
 
