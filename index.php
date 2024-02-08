@@ -29,6 +29,7 @@ try {
             if ($_POST["correo"] == $fetch["correo"] and $_POST["clave"] == $fetch["clave"]) {
                 session_start();
                 $_SESSION["usuario"] = $fetch["id_usuario"];
+                $_SESSION["nombreusu"] = $fetch["nombre"];
                 header("Location:pages/menu.php?user=" . $fetch["id_usuario"]);
             } else {
                 $user = $_POST["user"];

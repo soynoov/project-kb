@@ -1,6 +1,40 @@
 <?php
-
+ob_start();
 session_start();
+function botonFiltrar()
+{
+    $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+    $root = "root";
+    $key = "";
+
+    $db = new PDO($cadena_conexion, $root, $key);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if (isset($_POST["filtrar"])) {
+        setcookie("C_pedido" ,"1", time() +  3600);
+        $categoria = $_POST["categoria"];
+        $data = $db->query("SELECT * FROM producto WHERE categoria = $categoria");
+
+        foreach ($data as $produc) {
+            $_SESSION["id"] = $produc["id_producto"];
+            $_SESSION["precio"] = $produc["precio"];
+            $_SESSION["nombre"] = $produc["nombre"];
+            $_SESSION["categoria"] = $produc["categoria"];
+            mostrar();
+        }
+    } else {
+        $data = $db->query("SELECT * FROM producto");
+        
+
+        foreach ($data as $produc) {
+            $_SESSION["id"] = $produc["id_producto"];
+            $_SESSION["precio"] = $produc["precio"];
+            $_SESSION["nombre"] = $produc["nombre"];
+            $_SESSION["categoria"] = $produc["categoria"];
+            mostrar();
+        }
+    }
+}
+
 
 function mostrar()
 {
@@ -16,53 +50,104 @@ function mostrar()
         $categoria = null;
     }
 
-    echo '<div>
-    <img src="https://www.kebabalguazas.es/wp-content/uploads/2021/06/menus_portada.png" alt="">
-    <h3>' . $_SESSION["nombre"] . $categoria . '</h3>
-    <div>
-            <form method="POST">
-                <p> ' . $_SESSION["precio"] . ' €</p>
-                <input type="submit" name="' . $_SESSION["id"] . '" value="Add Cart">
-            </form>
+    if (isset($_GET["user"])) {
+        $addCart = '<input type="submit" name="' . $_SESSION["id"] . '" value="Add Cart">';
+    } else {
+        $addCart = null;
+    };
+
+    echo '
+    <div id="card">
+        <img src="https://www.kebabalguazas.es/wp-content/uploads/2021/06/menus_portada.png" alt="">
+        <h3>' . $_SESSION["nombre"] . $categoria . '</h3>
+        <div>
+            <p> ' . $_SESSION["precio"] . ' €</p>
+            <form method="POST" id="addcart">' . $addCart  .
+        '</form>
         </div>
-    </div>';
+    </div>
+    ';
+    
+    if (isset($_POST[$_SESSION["id"]])) {
+        // Llama a la función para agregar el producto al carrito
+        addCarrito($_SESSION["id"]);
+    }
+    
 }
 
-function botonFiltrar()
-{
+
+
+function addCarrito($id){
     $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
     $root = "root";
     $key = "";
 
-    $db = new PDO($cadena_conexion, $root, $key);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    if (isset($_POST["filtrar"])) {
+    $id_usuario = $_SESSION["usuario"];
 
-        $categoria = $_POST["categoria"];
-        $data = $db->query("SELECT * FROM producto WHERE categoria = $categoria");
+    try {
+        $db = new PDO($cadena_conexion, $root, $key);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        foreach ($data as $produc) {
-            $_SESSION["id"] = $produc["id_producto"];
-            $_SESSION["precio"] = $produc["precio"];
-            $_SESSION["nombre"] = $produc["nombre"];
-            $_SESSION["categoria"] = $produc["categoria"];
-            mostrar();
+        // Inicia la transacción
+        $db->beginTransaction();
+
+
+        // // Comprobar si la cookie existe y tiene el valor 'false'
+        // if (!isset($_COOKIE['C_pedido']) || $_COOKIE['C_pedido'] === 'true') {
+        //     // Crear una cookie con valor booleano false
+        //     setcookie('C_pedido', 'false', time() + 3600); // La cookie expirará en una hora
+     
+        //     print_r($_COOKIE["C_pedido"]);
+        // } else {
+        //     // Cambiar el valor de la cookie a true y enviar la nueva cookie al navegador
+        //     setcookie('C_pedido', 'true', time() + 3600);
+        //     print_r($_COOKIE["C_pedido"]);
+        // }
+
+        //  // Obtener el ID del pedido recién creado
+        // $idPedidoFetch = $db->lastInsertId();
+        // // Insertar en la tabla carrito
+        // $db->query("INSERT INTO carrito(pedido, producto) VALUES ($idPedidoFetch, $id)");
+
+        // // Commit si todas las consultas se ejecutaron correctamente
+        // $db->commit();
+
+        //set cookie
+        if (!isset($_COOKIE["C_pedido"])) {
+                // Establecer la cookie cuando se envía el formulario de filtrar
+                setcookie("C_pedido", 1, time() + 3600);
+
+                // Insertar un nuevo pedido
+                $crearPedido = $db->prepare("INSERT INTO pedido(entrega, usuario) VALUES (1, $id_usuario)");
+                $crearPedido->execute();
+                // Obtener el ID del pedido recién creado
+                $idPedidoFetch = $db->lastInsertId();
+                // print_r($idPedidoFetch);
+
+                $_SESSION["IDpf"] = $idPedidoFetch;
+
         }
-    } else {
-        $data = $db->query("SELECT * FROM producto");
 
+                // Insertar en la tabla carrito
+                $carritoAdd = $db->prepare("INSERT INTO carrito(pedido, producto) VALUES (". $_SESSION['IDpf'] .", $id)");
+                $carritoAdd->execute();
 
-        foreach ($data as $produc) {
-            $_SESSION["id"] = $produc["id_producto"];
-            $_SESSION["precio"] = $produc["precio"];
-            $_SESSION["nombre"] = $produc["nombre"];
-            $_SESSION["categoria"] = $produc["categoria"];
-            mostrar();
-        }
+                // Commit si todas las consultas se ejecutaron correctamente
+                $db->commit();
 
+    } catch (PDOException $e) {
+        // Rollback en caso de error
+        $db->rollBack();
 
+        // Manejo de errores, podrías imprimir el mensaje de error o loguearlo
+        echo "Error: " . $e->getMessage();
+        return false; // o algún otro indicador de error si es necesario
     }
+
 }
+
+
+
 
 ?>
 
@@ -82,16 +167,12 @@ function botonFiltrar()
     <header>
         <!-- Logo de la Empresa con su Titulo -->
         <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-meat" width="34" height="34"
-                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-meat" width="34" height="34" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M13.62 8.382l1.966 -1.967a2 2 0 1 1 3.414 -1.415a2 2 0 1 1 -1.413 3.414l-1.82 1.821" />
-                <path
-                    d="M5.904 18.596c2.733 2.734 5.9 4 7.07 2.829c1.172 -1.172 -.094 -4.338 -2.828 -7.071c-2.733 -2.734 -5.9 -4 -7.07 -2.829c-1.172 1.172 .094 4.338 2.828 7.071z" />
+                <path d="M5.904 18.596c2.733 2.734 5.9 4 7.07 2.829c1.172 -1.172 -.094 -4.338 -2.828 -7.071c-2.733 -2.734 -5.9 -4 -7.07 -2.829c-1.172 1.172 .094 4.338 2.828 7.071z" />
                 <path d="M7.5 16l1 1" />
-                <path
-                    d="M12.975 21.425c3.905 -3.906 4.855 -9.288 2.121 -12.021c-2.733 -2.734 -8.115 -1.784 -12.02 2.121" />
+                <path d="M12.975 21.425c3.905 -3.906 4.855 -9.288 2.121 -12.021c-2.733 -2.734 -8.115 -1.784 -12.02 2.121" />
             </svg>
             <h1>Tienda Kebab</h1>
         </div>
@@ -99,56 +180,65 @@ function botonFiltrar()
         <nav>
             <ul>
                 <!-- Opción de Navegación del Menu -->
-                <?php
-
-                if (!isset($_GET["user"])) {
+                <?php if (!isset($_GET["user"])) {
                     echo '
-        <li>
-        <a href="../index.php" id="basket">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
-        <path d="M3 12h13l-3 -3" /><path d="M13 15l3 -3" />
-        </svg>
-        Iniciar Sesión
-        </a>
-        </li>
+                <li>
+                    <a href="../index.php" id="basket">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login-2" width="24" height="24"
+                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+                            <path d="M3 12h13l-3 -3" />
+                            <path d="M13 15l3 -3" />
+                        </svg>
+                        Iniciar Sesión
+                    </a>
+                </li>
         ';
                 } else {
-                    echo '<li><a href="" id="active">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tools-kitchen-2"
-            width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-            fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path
-                d="M19 3v12h-5c-.023 -3.681 .184 -7.406 5 -12zm0 12v6h-1v-3m-10 -14v17m-3 -17v3a3 3 0 1 0 6 0v-3" />
-        </svg>
-        Menu
-    </a></li>
-    <!-- Aquí vamos a hacer el php para en caso de que entren como invitado se muestre un header u otro. -->
-<li><a href="">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24"
-            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-        </svg>
-        Mi Perfil
-    </a></li>
-<li><a href="./basket.php" id="basket">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart"
-            width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-            fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-            <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-            <path d="M17 17h-11v-14h-2" />
-            <path d="M6 5l14 1l-1 7h-13" />
-        </svg>
-        Carrito<span id="notify">3</span>
-    </a></li>';
-                }
+                    echo '
+                <li>
+                    <a href="" id="active">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tools-kitchen-2" width="24"
+                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M19 3v12h-5c-.023 -3.681 .184 -7.406 5 -12zm0 12v6h-1v-3m-10 -14v17m-3 -17v3a3 3 0 1 0 6 0v-3" />
+                        </svg>
+                            Menu
+                    </a>
+                </li>
+                <!-- Aquí vamos a hacer el php para en caso de que entren como invitado se muestre un header u otro. -->
+                <li>
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24"
+                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                        </svg>
+                            Mi Perfil
+                    </a>
+                </li>
+                <li>
+                    <a href="./basket.php?user=' . $_GET["user"] . '" id="basket">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart" width="24"
+                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                            <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                            <path d="M17 17h-11v-14h-2" />
+                            <path d="M6 5l14 1l-1 7h-13" />
+                        </svg>
+                            Carrito<span id="notify">3</span>
+                    </a>
+                </li>
+    ';
+                } 
+
                 ?>
             </ul>
         </nav>
@@ -180,10 +270,9 @@ function botonFiltrar()
             </label>
             <input type="submit" value="Filtrar" name="filtrar">
         </form>
-        <section>
+        <section id="menu">
             <?php botonFiltrar(); ?>
         </section>
-
     </main>
 
 </body>
