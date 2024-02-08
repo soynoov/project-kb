@@ -19,17 +19,18 @@ function botonFiltrar()
             $_SESSION["precio"] = $produc["precio"];
             $_SESSION["nombre"] = $produc["nombre"];
             $_SESSION["categoria"] = $produc["categoria"];
+            $_SESSION["img"] = $produc["img"];
             mostrar();
         }
     } else {
         $data = $db->query("SELECT * FROM producto");
-        
-
+    
         foreach ($data as $produc) {
             $_SESSION["id"] = $produc["id_producto"];
             $_SESSION["precio"] = $produc["precio"];
             $_SESSION["nombre"] = $produc["nombre"];
             $_SESSION["categoria"] = $produc["categoria"];
+            $_SESSION["img"] = $produc["img"];
             mostrar();
         }
     }
@@ -58,7 +59,7 @@ function mostrar()
 
     echo '
     <div id="card">
-        <img src="https://www.kebabalguazas.es/wp-content/uploads/2021/06/menus_portada.png" alt="">
+        <img src=" ' . $_SESSION["img"] . ' " alt="">
         <h3>' . $_SESSION["nombre"] . $categoria . '</h3>
         <div>
             <p> ' . $_SESSION["precio"] . ' €</p>
@@ -91,26 +92,6 @@ function addCarrito($id){
         // Inicia la transacción
         $db->beginTransaction();
 
-
-        // // Comprobar si la cookie existe y tiene el valor 'false'
-        // if (!isset($_COOKIE['C_pedido']) || $_COOKIE['C_pedido'] === 'true') {
-        //     // Crear una cookie con valor booleano false
-        //     setcookie('C_pedido', 'false', time() + 3600); // La cookie expirará en una hora
-     
-        //     print_r($_COOKIE["C_pedido"]);
-        // } else {
-        //     // Cambiar el valor de la cookie a true y enviar la nueva cookie al navegador
-        //     setcookie('C_pedido', 'true', time() + 3600);
-        //     print_r($_COOKIE["C_pedido"]);
-        // }
-
-        //  // Obtener el ID del pedido recién creado
-        // $idPedidoFetch = $db->lastInsertId();
-        // // Insertar en la tabla carrito
-        // $db->query("INSERT INTO carrito(pedido, producto) VALUES ($idPedidoFetch, $id)");
-
-        // // Commit si todas las consultas se ejecutaron correctamente
-        // $db->commit();
 
         //set cookie
         if (!isset($_COOKIE["C_pedido"])) {
