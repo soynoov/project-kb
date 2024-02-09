@@ -1,6 +1,19 @@
 <?php
 ob_start();
 session_start();
+function contarCarro(){
+    $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+    $root = "root";
+    $key = "";
+
+    $db = new PDO($cadena_conexion, $root, $key);
+
+    // $carrito = $db->query("SELECT * FROM  carrito, pedido WHERE usuario = " . $_GET['user'] . "");
+
+    $prueba = $db->query("SELECT * FROM carrito");
+    $_SESSION["count"] = $prueba->rowCount();
+
+}
 
 function botonFiltrar()
 {
@@ -36,11 +49,13 @@ function botonFiltrar()
             mostrar();
         }
     }
+
 }
 
 
 function mostrar()
 {
+
     if ($_SESSION["categoria"] == 1) {
         $categoria = " - pollo";
     } else if ($_SESSION["categoria"] == 2) {
@@ -75,7 +90,7 @@ function mostrar()
         // Llama a la función para agregar el producto al carrito
         addCarrito($_SESSION["id"]);
     }
-    
+    contarCarro();
 }
 
 
@@ -117,7 +132,6 @@ function addCarrito($id){
 
                 // Commit si todas las consultas se ejecutaron correctamente
                 $db->commit();
-
     } catch (PDOException $e) {
         // Rollback en caso de error
         $db->rollBack();
@@ -181,15 +195,15 @@ function addCarrito($id){
                 </li>
         ';
                 } else {
-                    $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
-                    $root = "root";
-                    $key = "";
+                    // $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+                    // $root = "root";
+                    // $key = "";
 
-                    $db = new PDO($cadena_conexion, $root, $key);
+                    // $db = new PDO($cadena_conexion, $root, $key);
 
-                    $carrito = $db->query("SELECT * FROM  carrito");
-                    $_SESSION["filasCarrito"] = $carrito->rowCount();
-
+                    // $carrito = $db->query("SELECT * FROM  carrito, pedido WHERE usuario = " . $_GET['user'] . "");
+                    // $_SESSION["count"] = $carrito->rowCount();
+                    
                     echo '
                 <li>
                     <a href="" id="active">
@@ -226,7 +240,7 @@ function addCarrito($id){
                             <path d="M17 17h-11v-14h-2" />
                             <path d="M6 5l14 1l-1 7h-13" />
                         </svg>
-                            Carrito<span id="notify">'. $_SESSION["filasCarrito"] .'</span>
+                            Carrito<span id="notify">'. $_SESSION["count"] .'</span>
                     </a>
                 </li>
     ';

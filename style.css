@@ -266,3 +266,49 @@ header nav #active {
 #card p:hover {
     background-color: transparent;
 }
+
+/** Body Basket */
+
+#body_basket img {
+    height: 5cm;
+}
+
+#body_basket .list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+#body_basket .list #card {
+    width: 45vw;
+    margin: 1rem;
+}
+
+#body_basket form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+#body_basket input[type="submit"] {
+    background-color: var(--main-color);
+    color: var(--light);
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+    border: solid 2px var(--main-color);
+}
+
+#body_basket h3 {
+    padding: 1rem;
+    padding-bottom: 0;
+    padding-left: 5rem;
+    font-size: 1.5rem;
+}
+
+#body_basket p {
+    text-align: center;
+    font-size: 1.5rem;
+}

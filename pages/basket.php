@@ -1,7 +1,47 @@
 <?php
 
+ob_start(); 
 session_start();
+if(!isset($_GET["user"])){
+    header("Location: ../index.php");
+}
 
+
+function mostrar()
+{
+    
+    $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+    $root = "root";
+    $key = "";
+
+    $db = new PDO($cadena_conexion, $root, $key);
+    $data = $db->query("SELECT producto.*
+                        FROM carrito
+                        INNER JOIN pedido ON carrito.pedido = pedido.id_pedido
+                        INNER JOIN producto ON carrito.producto = producto.id_producto
+                        WHERE pedido.usuario = " . $_GET['user'] ."");
+
+    foreach ($data as $produc) {
+        $_SESSION["idCarrito"] = $produc["id_producto"];
+        $_SESSION["precioCarrito"] = $produc["precio"];
+        $_SESSION["nombreCarrito"] = $produc["nombre"];
+        $_SESSION["imgCarrito"] = $produc["img"];
+
+        echo '
+    <div id="card">
+        <img src=" ' . $produc["img"] . ' " alt="">
+        <h3>' . $produc["nombre"] . '</h3>
+        <div>
+            <p> ' .  $produc["precio"] . ' €</p>
+        </div>
+    </div>
+    ';
+    }
+
+
+    
+    
+}
 
 ?>
 
@@ -60,7 +100,7 @@ session_start();
                 </a>
                 </li>
                 <li>
-                <a href="./basket.php" id="basket">
+                <a href="#" id="basket">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart" width="24"
                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                         stroke-linejoin="round">
@@ -70,7 +110,7 @@ session_start();
                         <path d="M17 17h-11v-14h-2" />
                         <path d="M6 5l14 1l-1 7h-13" />
                     </svg>
-                        Carrito<span id="notify">3</span>
+                        Carrito<span id="notify"> ' . $_SESSION["count"] . '</span>
                 </a>
             </li>
     ';
@@ -84,9 +124,36 @@ session_start();
         <section>
             <h3>Tu Carrito</h3>
             <hr>
-            <ul>
+            <ul class="list">
                 <!-- Aqui se genera la información dinamicamente -->
+                <?php mostrar() ?>
             </ul>
+        </section>
+        <section class="button">
+
+            <?php 
+                if (isset($_POST["finish"])) {
+                    $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+                    $root = "root";
+                    $key = "";
+                
+                    $db = new PDO($cadena_conexion, $root, $key);
+
+                    setcookie("C_pedido", 1, time() - 3600);
+
+                    $db->query("DELETE carrito.* FROM carrito, pedido WHERE usuario = ". $_GET["user"] ."");
+                    header("location:./menu.php?user=" . $_GET["user"]);
+
+                }
+
+                if($_SESSION["count"] == 0){
+                    echo '<p>Aún no has añadido ningún producto.</p>';
+                }
+            ?>
+                
+            <form method="post">
+                <input type="submit" value="Finalizar Compra!" name="finish">
+            </form>
         </section>
     </main>
 
