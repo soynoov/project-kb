@@ -1,6 +1,20 @@
 <?php
 ob_start();
 session_start();
+function contarCarro(){
+    $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+    $root = "root";
+    $key = "";
+
+    $db = new PDO($cadena_conexion, $root, $key);
+
+    // $carrito = $db->query("SELECT * FROM  carrito, pedido WHERE usuario = " . $_GET['user'] . "");
+
+    $prueba = $db->query("SELECT * FROM carrito");
+    $_SESSION["count"] = $prueba->rowCount();
+
+}
+
 function botonFiltrar()
 {
     $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
@@ -19,25 +33,29 @@ function botonFiltrar()
             $_SESSION["precio"] = $produc["precio"];
             $_SESSION["nombre"] = $produc["nombre"];
             $_SESSION["categoria"] = $produc["categoria"];
+            $_SESSION["img"] = $produc["img"];
             mostrar();
         }
+        
     } else {
         $data = $db->query("SELECT * FROM producto");
-        
-
+    
         foreach ($data as $produc) {
             $_SESSION["id"] = $produc["id_producto"];
             $_SESSION["precio"] = $produc["precio"];
             $_SESSION["nombre"] = $produc["nombre"];
             $_SESSION["categoria"] = $produc["categoria"];
+            $_SESSION["img"] = $produc["img"];
             mostrar();
         }
     }
+
 }
 
 
 function mostrar()
 {
+
     if ($_SESSION["categoria"] == 1) {
         $categoria = " - pollo";
     } else if ($_SESSION["categoria"] == 2) {
@@ -58,7 +76,7 @@ function mostrar()
 
     echo '
     <div id="card">
-        <img src="https://www.kebabalguazas.es/wp-content/uploads/2021/06/menus_portada.png" alt="">
+        <img src=" ' . $_SESSION["img"] . ' " alt="">
         <h3>' . $_SESSION["nombre"] . $categoria . '</h3>
         <div>
             <p> ' . $_SESSION["precio"] . ' €</p>
@@ -72,7 +90,7 @@ function mostrar()
         // Llama a la función para agregar el producto al carrito
         addCarrito($_SESSION["id"]);
     }
-    
+    contarCarro();
 }
 
 
@@ -91,26 +109,6 @@ function addCarrito($id){
         // Inicia la transacción
         $db->beginTransaction();
 
-
-        // // Comprobar si la cookie existe y tiene el valor 'false'
-        // if (!isset($_COOKIE['C_pedido']) || $_COOKIE['C_pedido'] === 'true') {
-        //     // Crear una cookie con valor booleano false
-        //     setcookie('C_pedido', 'false', time() + 3600); // La cookie expirará en una hora
-     
-        //     print_r($_COOKIE["C_pedido"]);
-        // } else {
-        //     // Cambiar el valor de la cookie a true y enviar la nueva cookie al navegador
-        //     setcookie('C_pedido', 'true', time() + 3600);
-        //     print_r($_COOKIE["C_pedido"]);
-        // }
-
-        //  // Obtener el ID del pedido recién creado
-        // $idPedidoFetch = $db->lastInsertId();
-        // // Insertar en la tabla carrito
-        // $db->query("INSERT INTO carrito(pedido, producto) VALUES ($idPedidoFetch, $id)");
-
-        // // Commit si todas las consultas se ejecutaron correctamente
-        // $db->commit();
 
         //set cookie
         if (!isset($_COOKIE["C_pedido"])) {
@@ -134,7 +132,6 @@ function addCarrito($id){
 
                 // Commit si todas las consultas se ejecutaron correctamente
                 $db->commit();
-
     } catch (PDOException $e) {
         // Rollback en caso de error
         $db->rollBack();
@@ -158,7 +155,7 @@ function addCarrito($id){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
     <title>| Menu</title>
 </head>
 
@@ -180,7 +177,8 @@ function addCarrito($id){
         <nav>
             <ul>
                 <!-- Opción de Navegación del Menu -->
-                <?php if (!isset($_GET["user"])) {
+                <?php 
+                if (!isset($_GET["user"])) {
                     echo '
                 <li>
                     <a href="../index.php" id="basket">
@@ -197,6 +195,15 @@ function addCarrito($id){
                 </li>
         ';
                 } else {
+                    // $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
+                    // $root = "root";
+                    // $key = "";
+
+                    // $db = new PDO($cadena_conexion, $root, $key);
+
+                    // $carrito = $db->query("SELECT * FROM  carrito, pedido WHERE usuario = " . $_GET['user'] . "");
+                    // $_SESSION["count"] = $carrito->rowCount();
+                    
                     echo '
                 <li>
                     <a href="" id="active">
@@ -233,7 +240,7 @@ function addCarrito($id){
                             <path d="M17 17h-11v-14h-2" />
                             <path d="M6 5l14 1l-1 7h-13" />
                         </svg>
-                            Carrito<span id="notify">3</span>
+                            Carrito<span id="notify">'. $_SESSION["count"] .'</span>
                     </a>
                 </li>
     ';
@@ -251,7 +258,7 @@ function addCarrito($id){
         <hr>
         <!-- Secciones de la Carta (El Menu) -->
         <h2>Categorias</h2>
-        <form method="post" id="filter">
+        <form action=<?php htmlspecialchars($_SERVER['PHP_SELF']) ?> method="post" id="filter">
             <label>
                 <input type="radio" name="categoria" value="2">
                 Ternera
