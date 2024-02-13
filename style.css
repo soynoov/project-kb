@@ -1,23 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
 
 :root {
-    --dark: #212121;
-    --light: #fff;
-    --white: #eee;
-    --warning: #E31937;
-    --main-color: #80C457;
+  --dark: #212121;
+  --light: #fff;
+  --white: #eee;
+  --warning: #e31937;
+  --main-color: #80c457;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Lexend';
+  margin: 0;
+  padding: 0;
+  font-family: 'Lexend';
 }
 
 body {
-    background-color: var(--white);
-    width: 100vw;
-    height: 100vh;
+  background-color: var(--white);
+  width: 100vw;
+  height: 100vh;
 }
 
 /* form {
@@ -38,156 +38,157 @@ input {
 
 p,
 a {
-    padding: .5rem;
+  padding: 0.5rem;
 }
-
 
 /* Styles Menu */
 /* Menu Header */
 
 .menu {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 header {
-    background-color: var(--light);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    width: 100vw;
+  background-color: var(--light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  width: 100vw;
 }
 
 header nav {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
 
 header div {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 header svg {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
 
 header div svg {
-    margin-left: 2rem;
+  margin-left: 2rem;
 }
 
 header nav ul {
-    display: flex;
-    list-style: none;
+  display: flex;
+  list-style: none;
 }
 
 header nav ul li a {
-    padding: 1rem;
-    margin: 1rem;
-    text-decoration: none;
-    color: var(--dark);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
+  padding: 1rem;
+  margin: 1rem;
+  text-decoration: none;
+  color: var(--dark);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
 }
 
 header nav ul li a:hover {
-    background-color: var(--white);
+  background-color: var(--white);
 }
 
 header nav #active {
-    /* Hay que configurar mediante JavaScript la id #active */
-    background-color: var(--white);
-    font-weight: bold;
+  /* Hay que configurar mediante JavaScript la id #active */
+  background-color: var(--white);
+  font-weight: bold;
 }
 
 #basket {
-    /* #basket hace referencía al carrito de la compra */
-    background-color: var(--main-color);
-    color: var(--light);
+  /* #basket hace referencía al carrito de la compra */
+  background-color: var(--main-color);
+  color: var(--light);
 }
 
 #basket:hover {
-    background-color: green;
+  background-color: green;
 }
 
 #notify {
-    /* #notify hace referencia al número de notificaciones o items del carrito (Cambiar valor mediante una variable de php) */
-    background-color: var(--warning);
-    border-radius: 10px;
-    padding: .25rem .5rem;
-    margin-left: 1rem;
-    border: solid 1px var(--warning);
+  /* #notify hace referencia al número de notificaciones o items del carrito (Cambiar valor mediante una variable de php) */
+  background-color: var(--warning);
+  border-radius: 10px;
+  padding: 0.25rem 0.5rem;
+  margin-left: 1rem;
+  border: solid 1px var(--warning);
 }
 
 /* Menu Main */
 
 .menu main {
-    padding: 1rem;
-    margin: 1rem;
-    text-align: center;
+  padding: 1rem;
+  margin: 1rem;
+  text-align: center;
 }
 
 .menu main h1,
 .menu main h2 {
-    margin: 1rem;
+  margin: 1rem;
 }
 
 .menu main section > div {
-    background-color: var(--light);
-    width: 20vw;
-    border-radius: 10px;
-    cursor: pointer;
-    border: solid .5rem var(--light);
-}
-
-.menu main section>div:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.menu main div img {
-    height: 5cm;
-    transition: transform 300ms ease;
+  background-color: var(--light);
+  width: 20vw;
+  border-radius: 10px;
+  cursor: pointer;
+  border: solid 0.5rem var(--light);
 }
 
 .menu main section > div:hover {
-    cursor: pointer;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.menu main div img {
+  height: 5cm;
+  transition: transform 300ms ease;
+}
+
+.menu main section > div:hover {
+  cursor: pointer;
 }
 
 .menu main div:hover img {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .menu main div p {
-    color: var(--main-color);
-    border-radius: 5px;
-    padding: .5rem 1rem;
-    margin: 1rem;
+  color: var(--main-color);
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
 }
 
 .menu main div p:last-of-type {
-    background-color: var(--main-color);
-    color: var(--white);
+  background-color: var(--main-color);
+  color: var(--white);
 }
 
 .menu main div p:last-of-type:hover {
-    background-color: green;
+  background-color: green;
 }
 
 .menu main section {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .menu main section div div {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .menu::-webkit-scrollbar {
-    visibility: hidden;
-    width: 1px;
+  visibility: hidden;
+  width: 1px;
 }
 
 /* .menu main form {
@@ -196,119 +197,127 @@ header nav #active {
 
 /* Filter */
 #filter {
-    background: var(--white);
-    padding: 1.5rem;
-    margin: 2rem;
+  background: var(--white);
+  padding: 1.5rem;
+  margin: 2rem;
 }
 
 #filter label {
-    display: inline-block;
-    padding: .5rem 1rem;
-    margin: .5rem;
-    border: solid 2px var(--dark);
-    color: var(--dark);
-    background-color: var(--light);
-    border-radius: .5rem;
-    width: 5cm;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border: solid 2px var(--dark);
+  color: var(--dark);
+  background-color: var(--light);
+  border-radius: 0.5rem;
+  width: 5cm;
 }
 
-#filter label:has(input[type="radio"]:checked) {
-    border: solid 3px var(--main-color);
-    color: var(--main-color);
-    font-weight: bold;
+#filter label:has(input[type='radio']:checked) {
+  border: solid 3px var(--main-color);
+  color: var(--main-color);
+  font-weight: bold;
 }
 
-#filter input[type="radio"] {
-    display: none;
+#filter input[type='radio'] {
+  display: none;
 }
 
-#filter input[type="submit"] {
-    padding: 1rem;
-    border-radius: .5rem;
-    background-color: var(--dark);
-    border: solid 2px var(--dark);
-    color: var(--white);
+#filter input[type='submit'] {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--dark);
+  border: solid 2px var(--dark);
+  color: var(--white);
 }
 
 /* Add Cart */
-#addcart input[type="submit"] {
-    background-color: var(--main-color);
-    color: var(--light);
-    border: none;
-    padding: 1rem;
-    border-radius: .5rem;
-    margin: 1rem 0rem;
-    cursor: pointer;
+#addcart input[type='submit'] {
+  background-color: var(--main-color);
+  color: var(--light);
+  border: none;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0rem;
+  cursor: pointer;
 }
-#addcart input[type="submit"]:hover {
-    background-color: green;
+#addcart input[type='submit']:hover {
+  background-color: green;
 }
 
 #card {
-    background-color: var(--light);
-    margin: 1rem .5rem;
-    padding: 1rem .5rem;
-    border-radius: .5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 10cm;
-    cursor: default;
+  background-color: var(--light);
+  margin: 1rem 0.5rem;
+  padding: 1rem 0.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 10cm;
+  cursor: default;
 }
 
 #card p {
-    width: 2cm;
-    align-self: center;
-    background-color: transparent;
-    color: var(--main-color);
+  width: 2cm;
+  align-self: center;
+  background-color: transparent;
+  color: var(--main-color);
 }
 #card p:hover {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 /** Body Basket */
 
 #body_basket img {
-    height: 5cm;
+  height: 5cm;
 }
 
 #body_basket .list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
 }
 
 #body_basket .list #card {
-    width: 45vw;
-    margin: 1rem;
+  width: 45vw;
+  margin: 1rem;
 }
 
 #body_basket form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
 }
 
-#body_basket input[type="submit"] {
-    background-color: var(--main-color);
-    color: var(--light);
-    padding: .5rem 1rem;
-    border-radius: .5rem;
-    border: solid 2px var(--main-color);
+#body_basket input[type='submit'] {
+  background-color: var(--main-color);
+  color: var(--light);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: solid 2px var(--main-color);
 }
 
 #body_basket h3 {
-    padding: 1rem;
-    padding-bottom: 0;
-    padding-left: 5rem;
-    font-size: 1.5rem;
+  padding: 1rem;
+  padding-bottom: 0;
+  padding-left: 5rem;
+  font-size: 1.5rem;
 }
 
 #body_basket p {
-    text-align: center;
-    font-size: 1.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+/** Login & Register */
+.login,
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
