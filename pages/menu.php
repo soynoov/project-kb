@@ -25,8 +25,14 @@ function botonFiltrar()
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     if (isset($_POST["filtrar"])) {
         setcookie("C_pedido" ,"1", time() +  3600);
-        $categoria = $_POST["categoria"];
-        $data = $db->query("SELECT * FROM producto WHERE categoria = $categoria");
+
+        error_reporting(0);
+        if ($_POST["categoria"] == null){
+            $data = $db->query("SELECT * FROM producto");
+        }else{
+            $categoria = $_POST["categoria"];
+            $data = $db->query("SELECT * FROM producto WHERE categoria = $categoria");
+        }
 
         foreach ($data as $produc) {
             $_SESSION["id"] = $produc["id_producto"];
@@ -194,16 +200,7 @@ function addCarrito($id){
                     </a>
                 </li>
         ';
-                } else {
-                    // $cadena_conexion = "mysql:dbname=proyecto_ki;host=localhost";
-                    // $root = "root";
-                    // $key = "";
-
-                    // $db = new PDO($cadena_conexion, $root, $key);
-
-                    // $carrito = $db->query("SELECT * FROM  carrito, pedido WHERE usuario = " . $_GET['user'] . "");
-                    // $_SESSION["count"] = $carrito->rowCount();
-                    
+                } else {                    
                     echo '
                 <li>
                     <a href="" id="active">
@@ -258,14 +255,21 @@ function addCarrito($id){
         <hr>
         <!-- Secciones de la Carta (El Menu) -->
         <h2>Categorias</h2>
-        <form action=<?php htmlspecialchars($_SERVER['PHP_SELF']) ?> method="post" id="filter">
+
+        <!-- action=<?php htmlspecialchars($_SERVER['PHP_SELF']) ?> -->
+
+        <form  method="post" id="filter">
+            <label>
+                <input type="radio" name="categoria" value="1">
+                Pollo
+            </label>
             <label>
                 <input type="radio" name="categoria" value="2">
                 Ternera
             </label>
             <label>
-                <input type="radio" name="categoria" value="1">
-                Pollo
+                <input type="radio" name="categoria" value="3">
+                Mixto
             </label>
             <label>
                 <input type="radio" name="categoria" value="5">

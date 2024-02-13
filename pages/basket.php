@@ -15,31 +15,37 @@ function mostrar()
     $key = "";
 
     $db = new PDO($cadena_conexion, $root, $key);
-    $data = $db->query("SELECT producto.*
+    $data = $db->query("SELECT producto.*, carrito.id_carrito
                         FROM carrito
                         INNER JOIN pedido ON carrito.pedido = pedido.id_pedido
                         INNER JOIN producto ON carrito.producto = producto.id_producto
                         WHERE pedido.usuario = " . $_GET['user'] ."");
 
     foreach ($data as $produc) {
-        $_SESSION["idCarrito"] = $produc["id_producto"];
-        $_SESSION["precioCarrito"] = $produc["precio"];
-        $_SESSION["nombreCarrito"] = $produc["nombre"];
-        $_SESSION["imgCarrito"] = $produc["img"];
+        $idCarro = $produc["id_carrito"];
+        $idproCarrito = $produc["id_producto"];
+        $precioCarrito = $produc["precio"];
+        $nombreCarrito = $produc["nombre"];
+        $imgCarrito = $produc["img"];
 
         echo '
     <div id="card">
-        <img src=" ' . $produc["img"] . ' " alt="">
-        <h3>' . $produc["nombre"] . '</h3>
+        <img src=" ' . $imgCarrito . ' " alt="">
+        <h3>' . $nombreCarrito . '</h3>
         <div>
-            <p> ' .  $produc["precio"] . ' €</p>
+            <p> ' .  $precioCarrito . ' €</p>
         </div>
+        <form method="post" action="' . $_SERVER["PHP_SELF"] . '?' . $_SERVER["QUERY_STRING"] .'">
+            <input type="submit" value="Eliminar" name="' . $idCarro . '">
+        </form>
     </div>
     ';
+
+        if(isset($_POST["$idCarro"])){
+            $db->query("DELETE FROM carrito WHERE id_carrito = '$idCarro'");
+        }
+
     }
-
-
-    
     
 }
 
