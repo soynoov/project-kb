@@ -72,11 +72,8 @@ try {
         <h3>Iniciar Sesión</h3>
 
         <input type="text" name="correo" placeholder="Correo" value="">
-        <!-- Estoy intentando que se mantenga el correo aunque la contraseña esté mal, pero tengo que seguir trabajando en ello -->
         <input type="password" name="clave" placeholder="Clave">
         <input type="submit" value="Entrar">
-
-
 
         <p>¿No tienes cuenta?</p>
         <a href="./pages/register.php">Crear una Cuenta</a>
