@@ -56,7 +56,7 @@ try {
         <p>¿Ya tienes cuenta?</p>
 
         <a href="../index.php">Iniciar Sesión</a>
-        <a href="/menu.php">Entrar como Invitado</a>
+        <a href="./menu.php">Entrar como Invitado</a>
 
     </form>
 

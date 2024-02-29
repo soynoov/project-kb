@@ -77,7 +77,7 @@ try {
 
         <p>¿No tienes cuenta?</p>
         <a href="./pages/register.php">Crear una Cuenta</a>
-        <a href="/pages/menu.php">Entrar como Invitado</a>
+        <a href="./pages/menu.php">Entrar como Invitado</a>
 
     </form>
 
