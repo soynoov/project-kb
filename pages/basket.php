@@ -28,10 +28,22 @@ function mostrar()
         $nombreCarrito = $produc["nombre"];
         $imgCarrito = $produc["img"];
 
+        if ($produc["categoria"] == 1) {
+            $Ncategoria = " - pollo";
+        } else if ($produc["categoria"] == 2) {
+            $Ncategoria = " - ternera";
+        } else if ($produc["categoria"] == 3) {
+            $Ncategoria = " - mixto";
+        } else if ($produc["categoria"] == 4) {
+            $Ncategoria = " - vegetariano";
+        } else {
+            $Ncategoria = null;
+        }
+
         echo '
     <div id="card">
         <img src=" ' . $imgCarrito . ' " alt="">
-        <h3>' . $nombreCarrito . '</h3>
+        <h3>' . $nombreCarrito .  $Ncategoria . '</h3>
         <div>
             <p> ' .  $precioCarrito . ' €</p>
         </div>

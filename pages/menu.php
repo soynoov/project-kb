@@ -8,8 +8,6 @@ function contarCarro(){
 
     $db = new PDO($cadena_conexion, $root, $key);
 
-    // $carrito = $db->query("SELECT * FROM  carrito, pedido WHERE usuario = " . $_GET['user'] . "");
-
     $prueba = $db->query("SELECT * FROM carrito");
     $_SESSION["count"] = $prueba->rowCount();
 
